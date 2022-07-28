@@ -19,9 +19,13 @@ public class NaceService {
     @Autowired
     private NaceRepository naceRepository;
 
-    public long addProduct(Nace nace){
-        naceRepository.save(nace);
-        return  nace.getOrder_Number();
+    public long addNace(Nace nace) throws IllegalStateException{
+        if (nace.getOrder_Number()>0) {
+            naceRepository.save(nace);
+            return nace.getOrder_Number();
+        }
+        else
+        throw new IllegalStateException("OrderNumberNotValid");
     }
     
     public ArrayList<Nace> getAllNaces(){

@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,9 +41,9 @@ public class NaceResource{
             @ApiResponse(code = 400, message = "Error occurred while processing request")}
             )
     public  ResponseEntity<String> addProduct(@ApiParam(value = "Nace details  added ")
-    @RequestBody Nace nace) {
+    @RequestBody Nace nace) throws IllegalStateException{
         logger.debug("Entered add() >>"+nace);
-        long id =  service.addProduct(nace);
+        long id =  service.addNace(nace);
         logger.debug("Exited add() >>"+nace);
         return new ResponseEntity<String>("Created :"+id, HttpStatus.CREATED);
     }
@@ -50,9 +52,9 @@ public class NaceResource{
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "list nace items ", notes = "lists  all nace items ")
-    public  List<Nace> getAllProducts() {
+    public  ResponseEntity<ArrayList<Nace>> getAllProducts() {
     	  logger.debug("Entered getAllProducts >>");
-          return service.getAllNaces();
+          return  ResponseEntity.ok().body(service.getAllNaces());
     }
 
 
